@@ -92,6 +92,7 @@
 			// 		siloId:siloId
 			// 	}
 			// 	this.$store.commit('lrx',payload);
+				this.$router.push('/filerlist/');
 			},
 			handleClickProduct(eventId,urlkey){
 				var payload = {
