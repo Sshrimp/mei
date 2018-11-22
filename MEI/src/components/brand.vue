@@ -1,11 +1,37 @@
 <template>
 	<div id="brand">
 		<!-- <div class="read">目前最底层路由</div> -->
+		
+
+		
+			<div :id="changeNav">
+				<!-- 跳到相应的首页 -->
+				<router-link tag="i" to="/index/" class="iconfont icon-fanhui iconleft" style="font-size:30px; float: left;"></router-link>
+				<p style="float:left;font-weight: bold;margin-left: 32%" v-show="pShow">{{brandnav.brandName}}</p>
+				<i class="iconfont icon-gengduo iconright" style="font-size:30px;float:right;" @click="liShow=!liShow"></i>
+				<div class="menu" v-show="liShow" style="position:relative">
+					<div class="arrow"></div>
+					<ul class="menu-list" >
+					<router-link tag="li" to="/index/">首页</router-link>
+					<router-link tag="li" to="/shoppingcart/">购物袋</router-link>
+					<router-link tag="li" to="/login/mobile/" style="border-bottom:none">个人中心</router-link>
+					</ul>
+				</div>
+
+			</div>
+
+				
+		
+
+
 		<div class="imgbk">
+			<!-- 引入icon -->
+			<h3 class="brand-title" style="z-index:2">{{brandnav.brandName}}</h3>
 			<img :src="brandnav.brandPageImage">
 			<div class="brand-kv-mask"></div>
-			<router-link to="/login" tag="div" class="black follow"
+			<router-link to="/login/mobile/" tag="div" class="black follow"
 		 >+关注</router-link>
+
 		</div>
 		<div class="brand-total">
 			<span>在售商品{{brandnav1.onSaleTotal}}件</span>
@@ -58,24 +84,32 @@
 		<div class="lunbo3">
 			<p class="lunbo31">好货推荐</p>
 			 <div class="swiper-container" style="margin-left: 5%">
-    			<div class="swiper-wrapper">
-      				<div class="swiper-slide" v-for="data in goodlist2" >
-      					<div class="goodslist" style="height:50px;line-height: 50px;"@click="handleClick()">
+    			<div class="swiper-wrapper">   				
+      				<div class="swiper-slide" v-for="data in goodlist2" :key="data.categoryId" @click="handleClick(data.categoryId)" >
+      					<div class="goodslist" style="height:50px;line-height: 50px;" >
       						{{data.categoryName}}
       					</div>
       				</div>
     			</div>
   			</div>
+  		</div>
 
   			<!-- 商品列表 -->
-  			<div class="good">
-			
+  			<div class="good">	
 				<ul class="goodUL">
-					<li class="goodLI" v-for="data in goodlist">
-					
+					<li class="goodLI" v-for="data in goodlist" >
 						<img :src="data.fileUrl">
 						<p class="good2">{{data.brandName}}</p>
 						<p class="good3">{{data.productName}}</p>
+						<div class="tuijian" style="height: 20px;margin-bottom: 5px">
+							<span v-for="data1 in data.tagListDto" >
+								<!-- <div  v-bind:style="background-color:{{data1.fontBackgroudColor}}"> -->
+									{{data1.tag}}
+								<!-- </div> -->
+								
+							</span>
+						</div>
+							
 						<div class="goodprice">
 							<p class="newprice">￥{{data.price}}</p>
 							<p class="oriprice" style="text-decoration:line-through">￥{{data.marketPrice}}</p>
@@ -83,9 +117,7 @@
 						</div>
 					</li>
 				</ul>
-			</div>
-
-
+		
 		</div>
 			
 			
@@ -106,34 +138,59 @@ export default{
 			brandnav:[],
 			brandnav1:[],
 			isShow:true,
+			liShow:false,
 			lunboimg1:[],
 			lunboimg2:[],
 			goodlist:[],
-			goodlist2:[]
+			goodlist2:[],
+			id:'',
+			titleShow:false,
+			pShow:false
 
 		}
 	},
 	methods:{
-		handleClick(){
-			console.log('aaaa')
+		handleClick(id){
+			//console.log(id)
+			//console.log('aaaa')
+			var listid= id
+			//console.log(listid)
+
+			axios.get(`/appapi/brand/product/secCategoryProduct/v3?logoId=${this.$route.params.id}&pageIndex=1&categoryId=${id}`).then(res=>{
+						//console.log(res.data)
+
+						this.goodlist=res.data.body.categoryProducts;
+						this.goodlist2=res.data.body.categories;
+
+			})
 		}
 	},
 
 	mounted(){
+
+		let self=this
+		addEventListener('scroll', function(){
+			if(document.documentElement.scrollTop <= 250){
+				self.titleShow=false;
+				//console.log('1111')
+				self.pShow=false
+			}else{
+				self.titleShow=true;
+				self.pShow=true
+			}
+		});
 		
 		/*要写成VUEX*/
 		this.$store.state.navshow=false;
 		axios.get(`/appapi/brand/product/hotNew/v3?logoId=${this.$route.params.id}`).then(res=>{
 
-			/*引入轮播*/
-		
 			this.brandnav=res.data.body.brandDetail;
 			//console.log(res.data.body)
 			this.brandnav1=res.data.body;
 			this.lunboimg1=res.data.body.hotProductTop10
 			this.lunboimg2=res.data.body.newProductTop10
 				this.$nextTick(()=>{
-					
+					/*引入轮播*/
 				var swiper = new Swiper('.swiper-container', {
 				    slidesPerView: 3,
 				    spaceBetween: 30,
@@ -147,12 +204,12 @@ export default{
 
 
 		});
-
 		axios.get(`/appapi/brand/product/secCategoryProduct/v3?logoId=${this.$route.params.id}&pageIndex=1`).then(res=>{
-			//console.log(res.data.body)
+			//console.log(res.data)
 			this.goodlist=res.data.body.categoryProducts;
 			this.goodlist2=res.data.body.categories;
-			//console.log(res.data.body.categories.categoryName)
+
+			//console.log(res.data.body.categoryProducts)
 			this.$nextTick(()=>{
 					
 				var swiper = new Swiper('.swiper-container', {
@@ -167,13 +224,26 @@ export default{
 
 		})
 
+	},
+	computed:{
+		changeNav(){
+			if(this.titleShow===true){
+				return 'iconchange1'
+			}else{
+				return 'iconchange'
+			}
+		}
 	}
 }
 
 </script>
 
 
-<style scoped lang="scss">
+<style scoped>
+	a{ 
+	text-decoration:none; 
+	color:#333; 
+	} 
 	.brand{
 		
 		box-sizing: border-box;
@@ -196,6 +266,15 @@ export default{
     	left: 0;
     	top: 0;
 	}
+	.brand-title{
+		position: absolute;
+		color: white;
+		width: 100%;
+		text-align: center;
+		bottom: 35px;
+		font-size: 25px;
+	}
+
 
 	.follow{
     line-height: 30px;
@@ -220,6 +299,83 @@ export default{
 		text-align: center;
 		font-size: 14px;
 		color: #999;
+	}
+	.icon{
+		width: 100%;
+		height: 45px;
+		position: fixed;
+		left: 0;
+		z-index: 5;
+		color: white;
+		line-height: 45px;
+		box-sizing: border-box;
+		padding-left:3%;
+		padding-right: 3%; 
+	}
+	#iconchange{
+		width: 100%;
+		height: 45px;
+		position: fixed;
+		left: 0;
+		z-index: 5;
+		color: white;
+		line-height: 45px;
+		box-sizing: border-box;
+		padding-left:3%;
+		padding-right: 3%;
+	}
+		#iconchange1{
+		width: 100%;
+		height: 45px;
+		position: fixed;
+		left: 0;
+		z-index: 5;
+		color: black;
+		line-height: 45px;
+		box-sizing: border-box;
+		padding-left:3%;
+		padding-right: 3%;
+		background: white;
+	}
+	.menu{
+		position: relative;
+	}
+	.arrow{
+		width: 0;
+    	height: 0;
+    	border-left: 12px solid transparent;
+    	border-right: 12px solid transparent;
+    	border-bottom: 12px solid hsla(0,0%,96%,.96);
+    	position: absolute;
+    	right: 12px;
+    	top: 33px;
+    	z-index: 20
+	}
+	.menu-list{
+		position: absolute;
+		right: -3%;
+		top: 45px;
+		background-color:hsla(0,0%,96%,.96);
+		opacity: .9;
+		width: 30%;
+		padding-left: 5%;
+		padding-right: 5%;
+		box-sizing: border-box;
+		text-align: center;
+		color: black;
+		font-size: 14px;
+		z-index: 10;
+
+
+	}
+	.menu-list li{
+		
+		
+		padding-top: 8px;
+		padding-bottom: 8px;
+		border-bottom: 1px solid #ccc
+		
+
 	}
 	.navout{
 		width: 100%;
@@ -270,8 +426,7 @@ export default{
    .lunbo14{
    	height: 200px;
   	margin-left: 10%;
-
-  	/* margin-right: 10px; */
+	/* margin-right: 10px; */
   }
   .lunbo14 img{
   	width: 100%;
@@ -284,9 +439,24 @@ export default{
   	width: 100%;
   	text-align:center;
   	color: #999;
-  }
-  .lunbo3{
 
+  }
+  .goodslist:hover{
+  	font-weight: bold;
+  	color: black;
+
+  }
+  /* .goodlist:after {
+			position: absolute;
+		    content: '';
+		    width: 10px;
+		    height: 3px;
+		    bottom: 0;
+		    background: black;
+		    left: 0;
+		} */
+  .lunbo3{
+  	border-bottom:1px solid #eee; 
   }
   .lunbo31{
   	margin-left: 10%;
@@ -308,6 +478,11 @@ export default{
   }
   .goodLI{
   	width: 48%;
+  }
+  .goodLI span{
+  	font-size: 12px;
+  	border: 1px solid black;
+  	margin-right: 3px;
   }
   .goodUL .goodLI img{
   	width: 100%;
@@ -361,8 +536,17 @@ export default{
 
   }
 
- </style>
+ 
 
 
 
 
+
+
+
+
+
+
+
+
+</style>
