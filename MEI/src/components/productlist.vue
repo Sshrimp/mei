@@ -47,7 +47,7 @@
 						<img :src="data.imageUrl" alt="">
 					</div>
 					<div class="li2">
-						<span>买手推荐</span>
+						<span v-for="item  in data.tagListDto">{{item.tag}}</span>
 					</div>
 					<div class="li3">
 						<p class="li3-1">{{data.brandName}}</p>
@@ -324,6 +324,7 @@
 						span{
 							font-size: 12px;
 							border: 1px solid #000;
+							margin-right: 2px;
 						}
 					}
 					.li3{

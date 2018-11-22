@@ -29,11 +29,11 @@
 
 		<div class="promotions" v-if="list">
 			<div class="promotions-1">
-				<div class="promotions-1-1" v-if="isShot">
+				<div class="promotions-1-1" v-if="false">
 					<i class="promotions-1-1-1">满折</i>
 					<span>{{list.couponScheme.eventCoupon[0].couponContent}}</span>	
 				</div>
-				<div class="promotions-1-2" v-if="isShor">
+				<div class="promotions-1-2" v-if="false">
 					<i class="promotions-1-2-1">免运</i>
 					<span>{{list.couponScheme.otherCoupon[0].couponContent}}</span>	
 				</div>
@@ -47,7 +47,7 @@
 						<img :src="data.imageUrl" alt="">
 					</div>
 					<div class="li2">
-						<span>买手推荐</span>
+						<span v-for="item  in data.tagListDto">{{item.tag}}</span>
 					</div>
 					<div class="li3">
 						<p class="li3-1">{{data.brandName}}</p>
@@ -55,10 +55,10 @@
 					</div>
 					<div class="li4">
 						<div class="li4-1">
-							<span class="li4-1-1">￥{{data.itemPriceDto.price}}</span>
+							<span class="li4-1-1">￥{{data.price}}</span>
 							<span class="li4-1-2">￥{{data.marketPrice}}</span>
 						</div>
-						<div class="li4-2">{{data.discount}}折</div>
+						<!-- <div class="li4-2">{{data.discount}}折</div> -->
 					</div>
 				</li>
 			</ul>
@@ -113,19 +113,23 @@
 		 },
 		  mounted(){
 		  	this.$store.state.navshow = false;
-		  	axios.get(`/appapi/event/product/v3?pageIndex=1&categoryId=${this.$store.state.productlist.eventId}&key=&sort=&timestamp=1542777337008&summary=ab7f9271050a06c899bd1a52d5704322&platform_code=H5`).then(res=>{
+		  	///appapi/secondcategory/product/v3?brandNames=&chineseCodes=&pageIndex=1&categoryId=1000000337&siloId=2013000100000000011&thirdCategories=%E6%9C%8D%E8%A3%85&key=&sort=&isCrossBorder=1&timestamp=1542870990207&summary=56b915b70fcd68767a0a21a3f5839826&platform_code=H5
+
+
+
+		  	axios.get(`appapi/secondcategory/product/v3?brandNames=&chineseCodes=&pageIndex=1&categoryId=${this.$store.state.filterlist.categoryIdTwoId}&siloId=${this.$store.state.filterlist.siloId}&thirdCategories=%E6%9C%8D%E8%A3%85&key=&sort=&isCrossBorder=1`).then(res=>{
 		  		//console.log(res.data);
 		  		this.list=res.data
 		  		this.listarr =res.data.products
-		  		console.log(this.list)
-		  		if (this.list.couponScheme.otherCoupon.length > 0 ) {
+		  		console.log(res.data)
+		  		/*if (this.list.couponScheme.otherCoupon.length > 0 ) {
 		  			this.isShor = true
 		  		}
 
 
 		  		if (this.list.couponScheme.eventCoupon.length !== 0) {
 		  			this.isShot = true
-		  		}
+		  		}*/
 		  		this.title = this.list.eventName
 		  	}),
 		  	window.addEventListener('scroll',this.topMenuBarShow)
@@ -154,7 +158,8 @@
 		  		if (this.lan> this.list.totalPages) {
 		  			this.loading=true;
 		  		}
-		  	 	axios.get(`/appapi/event/product/v3?pageIndex=${this.lan}&categoryId=${this.$store.state.productlist.eventId}&key=&sort=&timestamp=1542777337008&summary=ab7f9271050a06c899bd1a52d5704322&platform_code=H5`).then(res=>{
+		  		//
+		  	 	axios.get(`appapi/secondcategory/product/v3?brandNames=&chineseCodes=&pageIndex=${this.lan}&categoryId=${this.$store.state.filterlist.categoryIdTwoId}&siloId=${this.$store.state.filterlist.siloId}&thirdCategories=%E6%9C%8D%E8%A3%85&key=&sort=&isCrossBorder=1`).then(res=>{
 		  	 		//this.list.products={...this.list.products,...res.data.products}
 		  	 		//console.log(this.list.products)
 		  	 		this.listarr =[...this.listarr,...res.data.products]
@@ -324,6 +329,7 @@
 						span{
 							font-size: 12px;
 							border: 1px solid #000;
+							margin-right: 2px;
 						}
 					}
 					.li3{
