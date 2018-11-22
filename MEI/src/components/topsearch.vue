@@ -23,7 +23,6 @@
 				}else{
 				self.isfff = false
 				}
-				console.log(self.isfff)
 			}
 		},
 		methods:{
@@ -43,7 +42,16 @@
 				}else{
 					return 'add'
 				}
-			}
+			},
+			destroyed(){
+			removeEventListener('scroll',  function(){
+				if (document.documentElement.scrollTop === 0){
+					self.isfff = true
+				}else{
+					self.isfff = false
+				}
+			})
+		}
 		}
 
 		
