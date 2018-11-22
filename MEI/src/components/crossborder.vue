@@ -86,13 +86,13 @@
 			},
 
 			handleClickFilter(categoryOneId,categoryTwoId,siloId){
-			// 	var payload = {
-			// 		oneId:categoryOneId,
-			// 		twoId:categoryTwoId,
-			// 		siloId:siloId
-			// 	}
-			// 	this.$store.commit('lrx',payload);
-				this.$router.push('/filerlist/');
+				var payload = {
+					oneId:categoryOneId,
+					twoId:categoryTwoId,
+					siloId:siloId
+				}
+				this.$store.commit('lrx',payload);
+				// this.$router.push('/filerlist/');
 			},
 			handleClickProduct(eventId,urlkey){
 				var payload = {
