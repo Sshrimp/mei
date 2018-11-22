@@ -14,6 +14,11 @@ import Filterlist from '../components/filterlist.vue'
 import Produtlsit from '../components/productlist.vue'
 import Productdetail from '../components/productdetail.vue'
 import Login from '../components/login.vue' 
+import Mobile from '../components/mobile.vue'
+import Account from '../components/account.vue'
+import Checksmscode from '../components/checksmscode.vue'
+import Setpassword  from '../components/setpassword.vue'
+import Welcome  from   '../components/welcome.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -75,15 +80,34 @@ export default new Router({
     },
     {
       path:'/login',
-      component : Login
-    }
-    // {
-    //   path:'*',
-    //   redirect:'/index'
-    // }
-    // {
-    // 	path:'*',
-    // 	redirect:'/index'
-    // }
+      component : Login,
+      children:[
+        {
+          path : 'mobile',
+          component : Mobile
+        },
+        {
+          path : 'account',
+          component : Account
+        }  
+      ]
+    },
+    {
+      path: '/checksmscode',
+      component : Checksmscode
+    },
+    {
+      path:'/setpassword',
+      component : Setpassword
+    },
+    {
+      path:'/welcome',
+      component : Welcome
+    },
+    {
+    	path:'*',
+    	redirect:'/index'
+    },
+
   ]
 })
