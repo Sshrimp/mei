@@ -13,7 +13,7 @@ import Brand from '../components/brand.vue'
 import Filterlist from '../components/filterlist.vue'
 import Produtlsit from '../components/productlist.vue'
 import Productdetail from '../components/productdetail.vue'
- 
+import Login from '../components/login.vue' 
 Vue.use(Router)
 
 export default new Router({
@@ -72,6 +72,10 @@ export default new Router({
     {
       path:'/productdetail',
       component : Productdetail
+    },
+    {
+      path:'/login',
+      component : Login
     }
     // {
     //   path:'*',
