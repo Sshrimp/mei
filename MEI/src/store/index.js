@@ -9,9 +9,14 @@ const store = new Vuex.Store({
   state: {
     navshow: true,
     productlist:{
-      	eventId:'',
+    	eventId:'',
   		urlkey:''
-      }
+      },
+    filterlist:{
+      categoryId:'',
+      categoryIdTwoId:'',
+      siloId:''
+    },
   },
 
   actions:{
@@ -20,11 +25,16 @@ const store = new Vuex.Store({
 
   mutations: {
   	lrx2(state,payload){
-		state.productlist.eventId = payload.eventId;
-		state.productlist.urlkey = payload.urlkey;
-  	}
-
+  		state.productlist.eventId = payload.eventId;
+  		state.productlist.urlkey = payload.urlkey;
+  	},
+    lrx(state,payload){
+      state.filterlist.categoryId = payload.oneId;
+      state.filterlist.categoryIdTwoId = payload.twoId;
+      state.filterlist.siloId = payload.siloId;   
+    }
   }
 })
 
 export default store;
+
