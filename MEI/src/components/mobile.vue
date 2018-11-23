@@ -1,22 +1,22 @@
 <template>
 	<div id="mobile">
 		<div class="login-account">
-			<div class="back">叉</div>
+			<div class="back"  @click="toHome()">叉</div>
 			<div class="login-form">
 				<div class="login-header">
 					<h2>登录/注册</h2>
-					<span>注册即送2600元新人红包</span>
+					<span>{{title}}</span>
 				</div>
 				<p class="error" v-show="isShow">您输入的手机号格式有误！</p>
 				<div class="login-main">
 					<div class="input-box">
 						<div class="input-item">
 							<label v-show="isShoe">手机号</label>
-							<input type="text" placeholder="手机号">
-							<span>叉</span>
+							<input type="text" :placeholder="shouji" @focus="xianshi()" @blur="meile()" v-model="isValue">
+							<span @click="shan()">叉</span>
 						</div>	
 					</div>
-					<div class="action"> --> </div>
+					<div :class="isShor?action2:action1" @click ="fafa()"> --> </div>
 					<div class="login-switch">
 						<a href="">切换密码登录</a>
 						<span> -> </span>
@@ -44,16 +44,67 @@ export default{
 	data(){
 		return{
 			isShow:false,
-			isShoe:false
+			isShoe:false,
+			isShor:false,
+			title:null,
+			shouji:'手机号',
+			isValue:'',
+			action1:'action1',
+			action2:'action2'
+
 		}
 	},
 	 mounted(){
 	 	this.$store.state.navshow = false;
 
 	 	axios.get(`/appapi/customer/getRegisterTips`).then(res=>{
-	 		console.log(res.data);
+	 		//console.log(res.data);
 	 		this.title = res.data.tips
 	 	})
+	 },
+	 methods:{
+	 	toHome(){
+	 		this.$router.push('/recommend')
+	 		//console.log('aaaaa');
+	 	},
+	 	xianshi(){
+	 		this.shouji = "";
+	 		this.isShoe = true
+	 	},
+	 	meile(){
+	 		var myreg = /^1[34578]\d{9}$/;
+	 		//console.log(this.isValue)
+	 		if (this.isValue !=='') {
+	 			//console.log('不是空的')
+	 			
+	 			if (myreg.test(this.isValue)) {
+	 				//console.log('正确')
+	 				//this.isShow = !this.isShow
+	 				this.isShor = true
+	 			}else {
+	 				//console.log('错误')
+	 				this.isShow = !this.isShow
+	 			}
+	 		}else {
+	 			//console.log('是空的')
+	 			this.shouji = '手机号';
+	 			this.isShoe = false
+	 		}
+	 	},
+	 	shan(){
+	 		this.isValue ='';
+	 		this.shouji = '手机号';
+	 		this.isShoe =false;
+	 		this.isShor = false;
+	 		this.isShow = false;
+	 	},
+	 	fafa(){
+	 		axios.get(`/v4?num=${this.isValue}`).then(res=>{
+	 			this.$router.push('/account')
+	 		}).catch(err=>{
+	 			console.log("请求失败："+err);
+	 		})
+	 	}
 	 }
 }	
 
@@ -91,7 +142,7 @@ export default{
 					}
 				}
 				.error{
-					width: 80%;
+					width: 100%;
 					margin: 0 auto;
 					color: #dd2828;
 					font-size: 12px;
@@ -139,10 +190,21 @@ export default{
 						}
 						
 					}
-					.action{
+					.action1{
 						margin-bottom: 15px;
 						height: 60px;
 						background: #ccc;
+						line-height: 60px;
+						text-align: center;
+						cursor: pointer;
+						box-shadow: 0 3px 5px rgba(0,0,0,.15), 0 -1px 3px rgba(0,0,0,.05);
+						color: #fff;
+						font-size: 21px;
+					}
+					.action2{
+						margin-bottom: 15px;
+						height: 60px;
+						background: #000;
 						line-height: 60px;
 						text-align: center;
 						cursor: pointer;
