@@ -117,7 +117,7 @@
 		  		//console.log(res.data);
 		  		this.list=res.data
 		  		this.listarr =res.data.products
-		  		console.log(this.list)
+		  		//console.log(this.list)
 		  		if (this.list.couponScheme.otherCoupon.length > 0 ) {
 		  			this.isShor = true
 		  		}
@@ -129,6 +129,9 @@
 		  		this.title = this.list.eventName
 		  	}),
 		  	window.addEventListener('scroll',this.topMenuBarShow)
+		  },
+		  destoryed(){
+		  	this.$store.state.navshow = true;
 		  },
 		  methods:{
 		  	menuShow(){
@@ -158,7 +161,7 @@
 		  	 		//this.list.products={...this.list.products,...res.data.products}
 		  	 		//console.log(this.list.products)
 		  	 		this.listarr =[...this.listarr,...res.data.products]
-		  	 		console.log(this.listarr)
+		  	 		//console.log(this.listarr)
 
 		  	 	})
 		  	

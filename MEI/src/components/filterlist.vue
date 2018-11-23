@@ -121,7 +121,7 @@
 		  		//console.log(res.data);
 		  		this.list=res.data
 		  		this.listarr =res.data.products
-		  		console.log(res.data)
+		  		//console.log(res.data)
 		  		/*if (this.list.couponScheme.otherCoupon.length > 0 ) {
 		  			this.isShor = true
 		  		}
@@ -130,9 +130,12 @@
 		  		if (this.list.couponScheme.eventCoupon.length !== 0) {
 		  			this.isShot = true
 		  		}*/
-		  		this.title = this.list.eventName
+		  		this.title =this.list.shareContent.shareInfo.split(' ')[0] 
 		  	}),
 		  	window.addEventListener('scroll',this.topMenuBarShow)
+		  },
+		  destoryed(){
+		  	this.$store.state.navshow = true;
 		  },
 		  methods:{
 		  	menuShow(){
@@ -163,7 +166,7 @@
 		  	 		//this.list.products={...this.list.products,...res.data.products}
 		  	 		//console.log(this.list.products)
 		  	 		this.listarr =[...this.listarr,...res.data.products]
-		  	 		console.log(this.listarr)
+		  	 		//console.log(this.listarr)
 
 		  	 	})
 		  	
