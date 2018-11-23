@@ -1,9 +1,6 @@
 <template>
 	<div id="brand">
 		<!-- <div class="read">目前最底层路由</div> -->
-		
-
-		
 			<div :id="changeNav">
 				<!-- 跳到相应的首页 -->
 				<router-link tag="i" to="/index/" class="iconfont icon-fanhui iconleft" style="font-size:30px; float: left;"></router-link>
@@ -18,13 +15,7 @@
 					<router-link tag="li" to="/login/mobile/" style="border-bottom:none">个人中心</router-link>
 					</ul>
 				</div>
-
 			</div>
-
-				
-		
-
-
 		<div class="imgbk">
 			<!-- 引入icon -->
 			<h3 class="brand-title" style="z-index:2">{{brandnav.brandName}}</h3>
@@ -40,15 +31,18 @@
 		</div>
 		<!-- 展开动画效果 -->
 		<div class="navout">
-			<div class="navmain">
+			<div :id="changep">
 				
 				<p class="navdes bounce">
 					{{brandnav.brandStoryText}}
 				</p>
 				
-				<!-- <p class="more" @click="handleMore()">更多</p> -->
+				<p class="more" @click="handleMore()">{{word}}</p>
 			</div>
 		</div>
+
+		<!-- div动画效果 -->
+		<div class="donghuadiv">
 		<!-- 第一个轮播 -->
 		<div class="lunbo1">
 			<p class="lunbo11">精选上新</p>
@@ -120,6 +114,8 @@
 				</ul>
 		
 		</div>
+
+		</div>
 			
 			
 			
@@ -147,7 +143,7 @@ export default{
 			id:'',
 			titleShow:false,
 			pShow:false,
-			zhankai:true,
+			zhankai:false,
 			isShoe:true
 
 		}
@@ -176,7 +172,7 @@ export default{
 	mounted(){
 
 		let self=this
-		/*addEventListener('scroll', function(){
+		addEventListener('scroll', function(){
 			if(document.documentElement.scrollTop <= 250){
 				self.titleShow=false;
 				//console.log('1111')
@@ -185,7 +181,7 @@ export default{
 				self.titleShow=true;
 				self.pShow=true
 			}
-		});*/
+		});
 		
 		/*要写成VUEX*/
 		this.$store.state.navshow=false;
@@ -232,6 +228,9 @@ export default{
 		})
 
 	},
+	destroyed(){
+		this.$store.state.navshow=true;
+	},
 	computed:{
 		changeNav(){
 			if(this.titleShow===true){
@@ -240,11 +239,18 @@ export default{
 				return 'iconchange'
 			}
 		},
-		pMore(){
+		changep(){
 			if(this.zhankai===true){
-				return 'pChange'
+				return 'xianshi'
 			}else{
-				return 'pnoChange'
+				return 'yincang'
+			}
+		},
+		word(){
+			if(this.zhankai===true){
+				return "收起"
+			}else{
+				return "展开"
 			}
 		}
 
@@ -395,20 +401,48 @@ export default{
 	.navout{
 		width: 100%;
 		margin-bottom: 20px;
+		color: #999;
+		line-height: 30px;
+		font-size: 14px;
+		text-indent: 25px;
 	}
 	.navmain{ 
-   
+   		height: 124px;
+   		overflow: hidden;
 		width: 80%;
 		margin: 0 auto;
 		position: relative;
-		font-size: 14px;
-		line-height: 20px;
+    
+	}
+	#yincang{
+		height: 124px;
+   		overflow: hidden;
+		width: 80%;
+		margin: 0 auto;
+		position: relative;
+		display: block;
+    -webkit-animation: hide .5s ease;
+    animation: hide .5s ease;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+	}
+
+	#xianshi{
+
+   		
+		width: 80%;
+		margin: 0 auto;
 		color: #999;
-		text-indent: 25px;
+		position: relative;
+		-webkit-animation: show .5s ease;
+    animation: show .5s ease;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+   		padding-bottom: 50px;
 	}
 	
-	/* .more{
-		height: 20px;
+	.more{
+		height: 30px;
 		background-color: white;
 		opacity: .9;
 		position: absolute;
@@ -417,7 +451,7 @@ export default{
 		width: 100%;
 		color: #f60;
 		text-align: center;
-	} */
+	}
 /* 动画效果 */
   .lunbo1{
   	
