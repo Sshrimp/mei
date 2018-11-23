@@ -14,8 +14,12 @@ module.exports = {
         '/appapi':{
         target:'http://www.mei.com',
         host:'www.mei.com',
-        changeOrigin:true
-            
+        changeOrigin:true   
+        },
+         '/v4':{
+            target:'http://localhost:3000',
+            host:'localhost:3000',
+            changeOrigin:true
         }
     },
 
