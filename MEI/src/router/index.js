@@ -108,7 +108,7 @@ export default new Router({
     {
       path:'/shoppingcart',
       component: Shopping
-    }
+    },
     {
     	path:'*',
     	redirect:'/index'

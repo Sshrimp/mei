@@ -86,7 +86,7 @@
 			<p class="lunbo31">好货推荐</p>
 			 <div class="swiper-container" style="margin-left: 5%">
     			<div class="swiper-wrapper">   				
-      				<div class="swiper-slide" v-for="data in goodlist2" :key="data.categoryId" @click="handleClick(data.categoryId)" :class="styleArr">
+      				<div class="swiper-slide" v-for="data in goodlist2" :key="data.categoryId" @click="handleClick(data.categoryId)">
       					<div class="goodslist" style="height:50px;line-height: 50px;" >
       						{{data.categoryName}}
       					</div>
@@ -148,8 +148,7 @@ export default{
 			titleShow:false,
 			pShow:false,
 			zhankai:true,
-			isShoe:true,
-			styleArr:[{fontWeight:"bold",borderBottom:"3px solid black"}]
+			isShoe:true
 
 		}
 	},
@@ -177,7 +176,7 @@ export default{
 	mounted(){
 
 		let self=this
-		addEventListener('scroll', function(){
+		/*addEventListener('scroll', function(){
 			if(document.documentElement.scrollTop <= 250){
 				self.titleShow=false;
 				//console.log('1111')
@@ -186,7 +185,7 @@ export default{
 				self.titleShow=true;
 				self.pShow=true
 			}
-		});
+		});*/
 		
 		/*要写成VUEX*/
 		this.$store.state.navshow=false;
