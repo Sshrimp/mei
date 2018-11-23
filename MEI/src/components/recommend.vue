@@ -20,7 +20,7 @@
 		</div>
 
 			<div class="newlist">
-				<div v-for = 'data in newlists' :key = 'data.eventId' class="newitem">
+				<div v-for = 'data in newlists' :key = 'data.eventId' class="newitem" @click="topro(data.eventId,data.urlkey)">
 					<div class="itemcontainer">
 			 			<img :src="data.imageUrl" alt="">
 						<div class="itemtext">
@@ -109,6 +109,16 @@
 					this.hotlists = res.data.lists[1].events
 					console.log(this.new)
 			})
+		},
+		methods:{
+			topro(eventId,urlkey){
+				var payload = {
+					eventId,
+					urlkey
+				};
+				this.$store.commit('lrx2',payload);
+				this.$router.push('/productlist/')
+			}
 		}
 	}
 
