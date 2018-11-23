@@ -19,6 +19,7 @@ import Account from '../components/account.vue'
 import Checksmscode from '../components/checksmscode.vue'
 import Setpassword  from '../components/setpassword.vue'
 import Welcome  from   '../components/welcome.vue'
+import Shopping from '../components/shoppingcart.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -104,6 +105,10 @@ export default new Router({
       path:'/welcome',
       component : Welcome
     },
+    {
+      path:'/shoppingcart',
+      component: Shopping
+    }
     {
     	path:'*',
     	redirect:'/index'
