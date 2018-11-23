@@ -7,7 +7,10 @@
       
     </div>
     <div class="content">
-      <router-view></router-view>
+
+      <transition name="fade" mode="out-in">
+        <router-view></router-view>
+      </transition>
     </div>
   </div>
 </template>
@@ -33,6 +36,14 @@ export default {
   height: 0px;
   z-index: 10
 }
+
+ .fade-enter-active, .fade-leave-active {
+   transition: all .3s;
+ }
+ .fade-enter, .fade-leave-to /* .kerwinfade-leave-active below version 2.1.8 */ {
+   opacity: 0;
+   
+ }
 
 </style>
  
