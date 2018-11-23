@@ -7,7 +7,8 @@
 			<div :id="changeNav">
 				<!-- 跳到相应的首页 -->
 				<router-link tag="i" to="/index/" class="iconfont icon-fanhui iconleft" style="font-size:30px; float: left;"></router-link>
-				<p style="float:left;font-weight: bold;margin-left: 32%" v-show="pShow">{{brandnav.brandName}}</p>
+				<p style="float:left;font-weight: bold;width: 82%;margin: 0 auto;
+				text-align: center" v-show="pShow">{{brandnav.brandName}}</p>
 				<i class="iconfont icon-gengduo iconright" style="font-size:30px;float:right;" @click="liShow=!liShow"></i>
 				<div class="menu" v-show="liShow" style="position:relative">
 					<div class="arrow"></div>
@@ -37,16 +38,16 @@
 			<span>在售商品{{brandnav1.onSaleTotal}}件</span>
 			<span>上新{{brandnav1.newTotal}}件</span>
 		</div>
+		<!-- 展开动画效果 -->
 		<div class="navout">
 			<div class="navmain">
-				<transition>
-				<p class="navdes bounce" v-show="isShow" >
+				
+				<p class="navdes bounce">
 					{{brandnav.brandStoryText}}
 				</p>
-				</transition>
-				<p class="more" @click="isShow=!isShow">更多</p>
+				
+				<!-- <p class="more" @click="handleMore()">更多</p> -->
 			</div>
-			
 		</div>
 		<!-- 第一个轮播 -->
 		<div class="lunbo1">
@@ -85,7 +86,7 @@
 			<p class="lunbo31">好货推荐</p>
 			 <div class="swiper-container" style="margin-left: 5%">
     			<div class="swiper-wrapper">   				
-      				<div class="swiper-slide" v-for="data in goodlist2" :key="data.categoryId" @click="handleClick(data.categoryId)" >
+      				<div class="swiper-slide" v-for="data in goodlist2" :key="data.categoryId" @click="handleClick(data.categoryId)" :class="styleArr">
       					<div class="goodslist" style="height:50px;line-height: 50px;" >
       						{{data.categoryName}}
       					</div>
@@ -145,7 +146,10 @@ export default{
 			goodlist2:[],
 			id:'',
 			titleShow:false,
-			pShow:false
+			pShow:false,
+			zhankai:true,
+			isShoe:true,
+			styleArr:[{fontWeight:"bold",borderBottom:"3px solid black"}]
 
 		}
 	},
@@ -163,6 +167,10 @@ export default{
 						this.goodlist2=res.data.body.categories;
 
 			})
+		},
+		handleMore(){
+			this.zhankai=!this.zhankai
+			console.log(this.zhankai)
 		}
 	},
 
@@ -232,7 +240,15 @@ export default{
 			}else{
 				return 'iconchange'
 			}
+		},
+		pMore(){
+			if(this.zhankai===true){
+				return 'pChange'
+			}else{
+				return 'pnoChange'
+			}
 		}
+
 	}
 }
 
@@ -379,20 +395,20 @@ export default{
 	}
 	.navout{
 		width: 100%;
-		height: 135px;
 		margin-bottom: 20px;
 	}
-	.navmain{
+	.navmain{ 
+   
 		width: 80%;
-		height: 100%;
 		margin: 0 auto;
-		overflow: hidden;
 		position: relative;
-		font-size: 18px;
+		font-size: 14px;
 		line-height: 20px;
 		color: #999;
+		text-indent: 25px;
 	}
-	.more{
+	
+	/* .more{
 		height: 20px;
 		background-color: white;
 		opacity: .9;
@@ -402,7 +418,7 @@ export default{
 		width: 100%;
 		color: #f60;
 		text-align: center;
-	}
+	} */
 /* 动画效果 */
   .lunbo1{
   	
@@ -444,6 +460,7 @@ export default{
   .goodslist:hover{
   	font-weight: bold;
   	color: black;
+  	border-bottom: 3px solid black;
 
   }
   /* .goodlist:after {
