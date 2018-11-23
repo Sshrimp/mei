@@ -99,7 +99,7 @@ export default{
 	 		this.isShow = false;
 	 	},
 	 	fafa(){
-	 		if (isShor ===true) {
+	 		if (this.isShor ===true) {
 	 			axios.get(`/v4?num=${this.isValue}`).then(res=>{
 	 				this.$router.push('/account')
 	 			}).catch(err=>{

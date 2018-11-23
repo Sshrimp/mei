@@ -17,7 +17,7 @@
 						</div>
 						<div class="input-item">
 							<label v-show="isShot">密码</label>
-							<input type="text" :placeholder="mima" @focus="xianshi2()" @blur="meile2()" v-model="isValue2">
+							<input type="password" :placeholder="mima" @focus="xianshi2()" @blur="meile2()" v-model="isValue2">
 							<span @click="shan2()">叉</span>
 						</div>	
 					</div>
@@ -144,7 +144,7 @@ export default{
 	 		this.isShow = false;
 	 	},
 	 	fafa(){
-	 		if (isShor&&isShoy === true) {
+	 		if (this.isShor&&this.isShoy === true) {
 	 			axios.get(`/v4?num=${this.isValue}`).then(res=>{
 	 				this.$router.push('/account')
 	 			}).catch(err=>{
