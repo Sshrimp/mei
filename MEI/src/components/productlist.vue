@@ -127,8 +127,8 @@
 		  			this.isShot = true
 		  		}
 		  		this.title = this.list.eventName
-		  	}),
-		  	window.addEventListener('scroll',this.topMenuBarShow)
+		  	})/*,
+		  	window.addEventListener('scroll',this.topMenuBarShow)*/
 		  },
 		  methods:{
 		  	menuShow(){
