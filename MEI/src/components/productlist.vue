@@ -130,9 +130,9 @@
 		  	}),
 		  	window.addEventListener('scroll',this.topMenuBarShow)
 		  },
-		  destoryed(){
-		  	this.$store.state.navshow = true;
-		  },
+		  destroyed(){
+		  		this.$store.state.navshow=true;
+		  	},
 		  methods:{
 		  	menuShow(){
 		  		this.isShoe = !this.isShoe

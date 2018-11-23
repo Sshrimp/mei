@@ -134,7 +134,7 @@
 		  	}),
 		  	window.addEventListener('scroll',this.topMenuBarShow)
 		  },
-		  destoryed(){
+		  destroyed(){
 		  	this.$store.state.navshow = true;
 		  },
 		  methods:{
