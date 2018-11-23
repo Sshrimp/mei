@@ -18,7 +18,7 @@
 					</div>
 					<div :class="isShor?action2:action1" @click ="fafa()"> --> </div>
 					<div class="login-switch">
-						<a href="">切换密码登录</a>
+						<router-link to="/login/account" tag="a">切换密码登录</router-link>
 						<span> -> </span>
 					</div>
 				</div>
@@ -83,7 +83,7 @@ export default{
 	 				this.isShor = true
 	 			}else {
 	 				//console.log('错误')
-	 				this.isShow = !this.isShow
+	 				this.isShow = true
 	 			}
 	 		}else {
 	 			//console.log('是空的')
@@ -99,11 +99,14 @@ export default{
 	 		this.isShow = false;
 	 	},
 	 	fafa(){
-	 		axios.get(`/v4?num=${this.isValue}`).then(res=>{
-	 			this.$router.push('/account')
-	 		}).catch(err=>{
-	 			console.log("请求失败："+err);
-	 		})
+	 		if (isShor ===true) {
+	 			axios.get(`/v4?num=${this.isValue}`).then(res=>{
+	 				this.$router.push('/account')
+	 			}).catch(err=>{
+	 				console.log("请求失败："+err);
+	 			})
+	 		}
+	 		
 	 	}
 	 }
 }	
