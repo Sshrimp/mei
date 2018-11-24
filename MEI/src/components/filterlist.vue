@@ -3,7 +3,7 @@
 		<transition name="fade">
 		<div class="topMenuBar" v-show="isShow">
 			<div class="topMenuBar-top">
-				<div class="div1">
+				<div class="div1" @click = 'back()'>
 					<i class="iconfont icon-fanhui"></i>
 				</div>
 				<div class="div2">
@@ -175,6 +175,9 @@
 
 		  	 	})
 		  	
+		  	},
+		  	back(){
+		  		this.$router.go(-1)
 		  	}
 		  }
 	}
