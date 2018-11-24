@@ -1,18 +1,30 @@
 <template>
 	<div :id= 'changeclass'class ="clear">
-		<router-link to ='/login/mobile' tag= 'div' class="login"><span>登录</span></router-link>
+		<router-link to ='/login/mobile' tag= 'div' class="login"><span>{{loginState}}</span></router-link>
 		<div class="search"><i class="iconfont icon-sousuo"></i> JIMMY CHOO 水晶鞋4折起</div>
 		<div class="icon"><i class="iconfont icon-56"></i></div>
 	</div>
 </template>
 
 <script>
+	import axios from 'axios'
 	export default{
 		name :'topsearch',
 		data(){
 			return{
-				isfff:true
+				isfff:true,
+				loginState :'登录'
 			}
+		},
+		created(){
+			axios.get('/v4/isMan').then(res=>{
+				console.log(res)
+				if (res.data.isHere === true) {
+					this.loginState = '我的'
+				}else{
+					this.loginState = '登录'
+				}
+			})
 		},
 		mounted(){
 			let self = this
