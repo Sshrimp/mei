@@ -103,7 +103,7 @@ export default{
 	 		if (this.isShor ===true) {
 	 			console.log(this.$store.state.num,);
 	 			console.log(this.isValue);
-	 			axios.post(`/v4/login`,{
+	 			axios.post(`/v4`,{
 	 				num:this.$store.state.num,
 	 				password:this.isValue
 	 			}).then(res=>{
