@@ -3,7 +3,8 @@
 		<!-- <div class="read">目前最底层路由</div> -->
 			<div :id="changeNav">
 				<!-- 跳到相应的首页 -->
-				<router-link tag="i" to="/index/" class="iconfont icon-fanhui iconleft" style="font-size:30px; float: left;"></router-link>
+				<!-- <router-link tag="i" to="/index/" class="iconfont icon-fanhui iconleft" style="font-size:30px; float: left;"></router-link> -->
+				<i class="iconfont icon-fanhui iconleft" style="font-size:30px; float: left;" @click="handleindex()"></i>
 				<p style="float:left;font-weight: bold;width: 82%;margin: 0 auto;
 				text-align: center" v-show="pShow">{{brandnav.brandName}}</p>
 				<i class="iconfont icon-gengduo iconright" style="font-size:30px;float:right;" @click="liShow=!liShow"></i>
@@ -166,6 +167,9 @@ export default{
 		handleMore(){
 			this.zhankai=!this.zhankai
 			console.log(this.zhankai)
+		},
+		handleindex(){
+			this.$router.go(-1)
 		}
 	},
 
@@ -253,6 +257,7 @@ export default{
 				return "展开"
 			}
 		}
+		
 
 	}
 }
