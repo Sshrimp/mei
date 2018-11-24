@@ -6,7 +6,15 @@
 			<p>{{this.datalist.brand}}
 				<span>￥{{this.datalist.price}}</span>
 			</p>
-			<i class="iconfont icon-gengduo"></i>
+			<i class="iconfont icon-gengduo" @click='returnListIsShow=!returnListIsShow'></i>
+			<div class="returnList" :class="returnListIsShow?'block':'none'">
+				<i></i>
+				<ul>
+					<router-link to='/index' tag='li'>首页</router-link>
+					<router-link to='/shoppingcart' tag='li'>购物袋</router-link>
+					<router-link to='/' tag='li'>个人中心</router-link>
+				</ul>
+			</div>
 		</div>
 		<div class="body">
 			
@@ -98,7 +106,7 @@
 				</ul>
 				
 			</div>
-			<div class="allLook liu lrx">
+			<div class="allLook liu lrx" v-if="this.allLookList.length!== 0">
 				<h3>大家都在看</h3>
 				<ul>
 					<li v-for="list in allLookList">
@@ -135,6 +143,7 @@
 			return{
 				isScroll:false,
 				isHeigh:true,
+				returnListIsShow:false,
 				imglist:[],
 				datalist:'',
 				taglist:[],
@@ -203,6 +212,9 @@
 			},
 			fanhui(){
 				this.$router.go(-1);
+			},
+			fanhuilist(){
+
 			}
 		},
 
@@ -260,12 +272,14 @@
 	.liu{margin:0 0 0 20px;}
 	.lrx{padding:0 20px 20px 0 ;border-bottom: 1px solid #e5e5e5;}
 	.heigh{
-		height: 480px;
+		height: 350px;overflow: hidden;
 		.more{display: block;}
 		}
-	.short{height: 450px;
+	.short{
 		.more{display: none;}
 	}
+	.block{display: block;}
+	.none{display: none;}
 	.detail{
 		position: relative;
 		div.LrxTitle{
@@ -276,6 +290,16 @@
 			p{
 				display: flex;flex-direction: column;justify-content: center; font-size: 12px;text-align: center;font-size: 16px;font-weight: bold;color: #000;line-height: 16px;margin-top: 8px;width: 200px;
 				span{font-size: 12px;color: #e66565;}
+			}
+			div.returnList{
+				width: 115px;height: 172px;background: #f5f5f5;position: absolute;right: 0;top: 50px;
+				i{border:10px solid transparent; border-bottom:10px solid #f5f5f5; position: absolute;right: 30px;top: -20px;}
+				ul{
+					padding:0 15px;
+					li{
+						font-size: 16px;line-height: 56px;border-bottom: 1px solid #cccccc;height: 56px;text-align: center;
+					}
+				}
 			}
 		}
 
@@ -324,9 +348,9 @@
 		} 
 
 		.pramas{
-			padding:25px 0 0 20px; width: 100%;height:300px;box-sizing: border-box;width: 100%;height: 100%;
+			padding:25px 0 0 20px; width: 100%;height:300px;box-sizing: border-box;width: 100%;height: 100%;overflow: hidden;
 			h3{line-height: 22px;font-size: 18px;}
-			div.content{ bottom: 1px solid red;width: 100%;padding-right: 20px;box-sizing: border-box;border-bottom: 1px solid #e5e5e5;position: relative;
+			div.content{ bottom: 1px solid red;width: 100%;padding-right: 20px;box-sizing: border-box;border-bottom: 1px solid #e5e5e5;position: relative;overflow: hidden;padding-bottom: 20px;
 				div{
 					width: 100%;float: left;font-size: 12px;margin-top: 22px;
 					label{
