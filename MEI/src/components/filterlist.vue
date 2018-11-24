@@ -329,6 +329,7 @@
 						}
 					}
 					.li2{
+						height: 14px;
 						span{
 							font-size: 12px;
 							border: 1px solid #000;
