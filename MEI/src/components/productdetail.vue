@@ -2,7 +2,7 @@
 <template>
 	<div class="detail">
 		<div class="LrxTitle" :class="isScroll?'transparent':'pink'">
-			<i class="iconfont icon-fanhui" ></i>
+			<i class="iconfont icon-fanhui" @click="fanhui()" ></i>
 			<p>{{this.datalist.brand}}
 				<span>￥{{this.datalist.price}}</span>
 			</p>
@@ -54,9 +54,9 @@
 				<div v-for="can in description.attributesList">
 					<label for="">{{can.name}}</label><span class="value">{{can.value}}</span>
 				</div>
-				<div v-if="JSON.stringify(this.description.groupAttribute) !== '{}'"><label for="">主要成分与功效</label><span class="value">{{this.description.groupAttribute.主要成分与功效}}</span></div>
-				<div v-if="JSON.stringify(this.description.groupAttribute) !== '{}'"><label for="">使用方法</label><span class="value">{{this.description.groupAttribute.使用方法}}</span></div>
-				<div v-if="JSON.stringify(this.description.groupAttribute) !== '{}'"><label for="">特别提示</label><span class="value">{{this.description.groupAttribute.特别提示}}</span></div>
+				<div v-if="JSON.stringify(this.description.groupAttribute) !== '{}'"><label for="">主要成分与功效</label><span class="value">{{this.groupAttribute.主要成分与功效}}</span></div>
+				<div v-if="JSON.stringify(this.description.groupAttribute) !== '{}'"><label for="">使用方法</label><span class="value">{{this.groupAttribute.使用方法}}</span></div>
+				<div v-if="JSON.stringify(this.description.groupAttribute) !== '{}'"><label for="">特别提示</label><span class="value">{{this.groupAttribute.特别提示}}</span></div>
 				
 				<div class="more" @click="more">
 					<div>
@@ -187,18 +187,22 @@
 			runToCart(){
 				axios.get('/v4/isMan').then(res=>{
 					if(res.data.isHere ){
-						axios.post('/v4/pushCart').then(res=>{
-							res.data={
-								img:this.imglist[0].smallImgUrl,
-								price:this.this.datalist.price
-							}
-						})
+						axios.post(`/v4/pushCart`,{
+							img:this.imglist[0].smallImgUrl,
+							price:this.datalist.price,
+							name:this.datalist.name
+						}).then(res=>
+							console.log(res)
+						)
 					}else {
-						console.log('还没登陆')
+						this.$router.push('/login/account/');
 					}
 				}).catch(err=>{
 					console.log('登陆请求有错误')
 				})
+			},
+			fanhui(){
+				this.$router.go(-1);
 			}
 		},
 
@@ -218,7 +222,7 @@
 				this.brandname = res.data.infos.brandName;
 				this.length = res.data.infos.productReviews.totalCount;
 				this.reviewsList = res.data.infos.productReviews.reviewsList;
-				console.log(res.data.infos.description)
+				this.groupAttribute = res.data.infos.description.groupAttribute
 					if(JSON.stringify(res.data.infos.description.groupAttribute) === '{}'){
 						this.isHeigh = false;
 					}else {
@@ -238,13 +242,13 @@
 				setInterval(this.time,1000)				
 			}).catch(err=>{console.log('请求错误');})
 
-			axios.get(`/appapi/product/detail/v3?categoryId=${this.$store.state.filterlist.categoryId}&productId=${this.$store.state.filterlist.productId}&platform_code=H5&timestamp=1543038720759&summary=236c63bf142e878d01c3c089c547448d`).then(res=>{
+			axios.get(`http://www.mei.com/appapi/product/hot/v3?categoryId=${this.$store.state.filterlist.categoryId}&productId=${this.$store.state.filterlist.productId}&platform_code=H5`).then(res=>{
 				this.allLookList = res.data.categoryList;
 			}).catch(err=>{
 				console.log('请求错误')
 			})
 		},
-		
+	
 	}
 </script>
 <style scoped lang="scss">
@@ -265,7 +269,7 @@
 	.detail{
 		position: relative;
 		div.LrxTitle{
-			height: 45px;width: 100%;position: fixed;left: 0;top: 0;z-index: 1000;display: flex;flex-direction: row;justify-content: space-between;background: white;
+			height: 45px;width: 100%;position: fixed;left: 0;top: 0;z-index: 1000;display: flex;flex-direction: row;justify-content: space-between;background: rgba(255,255,255,0.9);
 
 			i.icon-fanhui{margin-left: 15px;font-size: 24px;line-height: 45px;}
 			i.icon-gengduo{margin-right: 10px;font-size: 30px;line-height: 45px;}
