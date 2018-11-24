@@ -2,8 +2,8 @@
   <div id="app">
     <div class="top">
       
-    <topsearch v-show = 'this.$store.state.navshow'></topsearch>
-    <topnav  v-show = 'this.$store.state.navshow'></topnav>
+    <topsearch v-if = 'this.$store.state.navshow'></topsearch>
+    <topnav  v-if = 'this.$store.state.navshow'></topnav>
       
     </div>
     <div class="content">
