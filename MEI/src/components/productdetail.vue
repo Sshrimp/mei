@@ -1,7 +1,7 @@
 
 <template>
 	<div class="detail">
-		<div class="title" :class="isScroll?'transparent':'pink'">
+		<div class="LrxTitle" :class="isScroll?'transparent':'pink'">
 			<i class="iconfont icon-fanhui" ></i>
 			<p>{{this.datalist.brand}}
 				<span>￥{{this.datalist.price}}</span>
@@ -50,13 +50,13 @@
 		<div class="pramas">
 			<h3>商品参数</h3>
 
-			<div class="content" :class="isHeigh?'short':'heigh'">
+			<div class="content" :class="isHeigh?'heigh':'short'">
 				<div v-for="can in description.attributesList">
 					<label for="">{{can.name}}</label><span class="value">{{can.value}}</span>
 				</div>
-				<div v-if="this.groupAttribute===''"><label for="">主要成分与功效</label><span class="value">{{this.description.groupAttribute.主要成分与功效}}</span></div>
-				<div v-if="this.groupAttribute===''"><label for="">使用方法</label><span class="value">{{this.description.groupAttribute.使用方法}}</span></div>
-				<div v-if="this.groupAttribute===''"><label for="">特别提示</label><span class="value">{{this.description.groupAttribute.特别提示}}</span></div>
+				<div v-if="JSON.stringify(this.description.groupAttribute) !== '{}'"><label for="">主要成分与功效</label><span class="value">{{this.description.groupAttribute.主要成分与功效}}</span></div>
+				<div v-if="JSON.stringify(this.description.groupAttribute) !== '{}'"><label for="">使用方法</label><span class="value">{{this.description.groupAttribute.使用方法}}</span></div>
+				<div v-if="JSON.stringify(this.description.groupAttribute) !== '{}'"><label for="">特别提示</label><span class="value">{{this.description.groupAttribute.特别提示}}</span></div>
 				
 				<div class="more" @click="more">
 					<div>
@@ -118,7 +118,7 @@
 					<i class="iconfont icon-56"></i>
 					<p>购物袋</p>
 				</div>
-				<p class="cart">加入购物车</p>
+				<p class="cart" @click="runToCart">加入购物车</p>
 			</div>
 			<div class="right">立即购买</div>
 		</footer>
@@ -180,14 +180,32 @@
 				return result;
 			},
 			more(){
+				// console.log(this.description.groupAttribute)
+			
 				this.isHeigh = !this.isHeigh;
+			},
+			runToCart(){
+				axios.get('/v4/isMan').then(res=>{
+					if(res.data.isHere ){
+						axios.post('/v4/pushCart').then(res=>{
+							res.data={
+								img:this.imglist[0].smallImgUrl,
+								price:this.this.datalist.price
+							}
+						})
+					}else {
+						console.log('还没登陆')
+					}
+				}).catch(err=>{
+					console.log('登陆请求有错误')
+				})
 			}
 		},
 
 		mounted(){
 			this.$store.state.navshow = false;
 
-			axios.get("/appapi/product/detail/v3?categoryId=2041204190000005600&productId=2040204099000594326&platform_code=H5&timestamp=1542952931362&summary=16c598400892c908ed24a6de76632d85").then(res=>{
+			axios.get(`/appapi/product/detail/v3?categoryId${this.$store.state.filterlist.categoryId}&productId=${this.$store.state.filterlist.productId}`).then(res=>{
 				this.datalist = res.data.infos;
 				this.imglist = res.data.infos.images;
 				this.taglist = res.data.infos.product_labels;
@@ -200,6 +218,13 @@
 				this.brandname = res.data.infos.brandName;
 				this.length = res.data.infos.productReviews.totalCount;
 				this.reviewsList = res.data.infos.productReviews.reviewsList;
+				console.log(res.data.infos.description)
+					if(JSON.stringify(res.data.infos.description.groupAttribute) === '{}'){
+						this.isHeigh = false;
+					}else {
+						this.isHeigh = true;
+					}
+
 				if(this.datalist.warehouse_icon === ""){
 					this.isShow = false;
 				}
@@ -213,7 +238,7 @@
 				setInterval(this.time,1000)				
 			}).catch(err=>{console.log('请求错误');})
 
-			axios.get('/appapi/product/hot/v3?categoryId=2041204190000005600&productId=2040204099000594326&platform_code=H5').then(res=>{
+			axios.get(`/appapi/product/detail/v3?categoryId=${this.$store.state.filterlist.categoryId}&productId=${this.$store.state.filterlist.productId}&platform_code=H5&timestamp=1543038720759&summary=236c63bf142e878d01c3c089c547448d`).then(res=>{
 				this.allLookList = res.data.categoryList;
 			}).catch(err=>{
 				console.log('请求错误')
@@ -232,13 +257,16 @@
 	.lrx{padding:0 20px 20px 0 ;border-bottom: 1px solid #e5e5e5;}
 	.heigh{
 		height: 480px;
-		.more{display: none;}
+		.more{display: block;}
 		}
-	.short{height: 450px;}
+	.short{height: 450px;
+		.more{display: none;}
+	}
 	.detail{
 		position: relative;
-		div.title{
-			height: 45px;width: 100%;color: #222;display: flex;flex-direction: row;justify-content: space-between;/*padding: 0 10px;*//*box-sizing: border-box;*/
+		div.LrxTitle{
+			height: 45px;width: 100%;position: fixed;left: 0;top: 0;z-index: 1000;display: flex;flex-direction: row;justify-content: space-between;background: white;
+
 			i.icon-fanhui{margin-left: 15px;font-size: 24px;line-height: 45px;}
 			i.icon-gengduo{margin-right: 10px;font-size: 30px;line-height: 45px;}
 			p{
