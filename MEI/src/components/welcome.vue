@@ -35,7 +35,7 @@
 		 },
 		 methods:{
 		 	zhuan(){
-		 		this.$router.push('/recommend')
+		 		this.$router.push('/index')
 		 	}
 		 }
 	}
