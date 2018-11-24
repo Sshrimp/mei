@@ -42,7 +42,7 @@
 			<ul class="promotions-2"  v-infinite-scroll="loadMore"
   				infinite-scroll-disabled="loading"
  				infinite-scroll-distance="10">
-				<li v-for="data in listarr">
+				<li v-for="data,myindex in listarr" @click="chuanCan(myindex)">
 					<div class="li1">
 						<img :src="data.imageUrl" alt="">
 					</div>
@@ -155,6 +155,11 @@
 		  			this.isShow=true;
 		  		}
 		  		
+		  	},
+		  	chuanCan(index){
+		  		this.$store.commit('chuanChan',this.list.products[index].productId);
+		  		//console.log(this.list.products[index].productId);
+		  		this.$router.push('/productdetail/')
 		  	},
 		  	loadMore() {
 		  		this.lan++;
