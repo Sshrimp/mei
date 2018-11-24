@@ -17,8 +17,8 @@ module.exports = {
         changeOrigin:true   
         },
          '/v4':{
-            target:'http://localhost:3000',
-            host:'localhost:3000',
+            target:'http://10.2.157.9:3000',
+            host:'10.2.157.9:3000',
             changeOrigin:true
         }
     },
