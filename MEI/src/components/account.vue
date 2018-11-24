@@ -150,7 +150,7 @@ export default{
 	 				password:this.isValue2
 	 			}).then(res=>{
 	 				console.log(res.data);
-	 				if (res.data ===true) {
+	 				if (res.data.isHere ===true) {
 	 					this.$router.push('/index')
 	 				}else{
 	 					this.isShow = true;
