@@ -101,9 +101,9 @@ export default{
 	 	},
 	 	fafa(){
 	 		if (this.isShor ===true) {
-	 			
+
 	 			axios.post(`/v4/login`,{
-	 				num:this.$store.login.num,
+	 				num:this.$store.state.num,
 	 				password:isValue
 	 			}).then(res=>{
 	 				this.$router.push('/account')

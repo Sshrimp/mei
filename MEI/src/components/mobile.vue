@@ -102,13 +102,13 @@ export default{
 	 		if (this.isShor ===true) {
 	 			axios.get(`/v4?num=${this.isValue}`).then(res=>{
 	 				console.log(res);
-	 				if (res.data.data.isHere === true) {
+	 				if (res.data.isHere === true) {
 	 					this.$store.commit('zyp',this.isValue);
 
 	 					this.$router.push('/longin/account');
 	 				}else{
 	 					this.$store.commit('zyp',this.isValue);
-	 					
+
 	 					this.$router.push('/setpassword');
 	 				}
 	 				//this.$router.push('/account')
