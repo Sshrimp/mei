@@ -49,7 +49,7 @@
 			<p class="lunbo11">精选上新</p>
 			<div class="swiper-container lunbo14">
     			<div  class="swiper-wrapper ">
-    				<div v-for="data in lunboimg1" class="swiper-slide">
+    				<div v-for="data,myindex in lunboimg1" class="swiper-slide" @click="clicklunbo1(myindex)">
     					<div class="swiper11">
     						<img :src="data.fileUrl">
      						<span style="color:black">￥{{data.price}} </span>
@@ -65,7 +65,7 @@
 			<p class="lunbo11">人气热销</p>
 			<div class="swiper-container lunbo14">
     			<div  class="swiper-wrapper ">
-    				<div v-for="data in lunboimg2" class="swiper-slide">
+    				<div v-for="data in lunboimg2" class="swiper-slide" @click="clicklunbo2(myindex)">
     					<div class="swiper11">
     						<img :src="data.fileUrl">
      						<span style="">￥{{data.price}} </span>
@@ -93,7 +93,7 @@
   			<!-- 商品列表 -->
   			<div class="good">	
 				<ul class="goodUL">
-					<li class="goodLI" v-for="data in goodlist" >
+					<li class="goodLI" v-for="data,myindex in goodlist"  @click="clickli(myindex)">
 						<img :src="data.fileUrl">
 						<p class="good2">{{data.brandName}}</p>
 						<p class="good3">{{data.productName}}</p>
@@ -170,7 +170,20 @@ export default{
 		},
 		handleindex(){
 			this.$router.go(-1)
+		},
+		clickli(index){
+			this.$store.commit('chuanChan',this.goodlist[index].productId)
+			this.$router.push('/productdetail/')
+		},
+		clicklunbo1(index){
+			this.$store.commit('chuanChan',this.lunboimg1[index].productId)
+			this.$router.push('/productdetail/')
+		},
+		clicklunbo2(index){
+			this.$store.commit('chuanChan',this.lunboimg2[index].productId)
+			this.$router.push('/productdetail/')
 		}
+
 	},
 
 	mounted(){
