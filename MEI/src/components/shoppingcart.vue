@@ -12,9 +12,9 @@
 		<div class="shopping-nav">
 			<div class="shopping-nav-main">
 				<p class="baoyou">满688包邮</p>
-				<div class="triangle_border_right">
+				<!-- <div class="triangle_border_right">
     				<span></span>
-				</div>
+				</div> -->
 				<p class="baoyour">1/1</p>
 			</div>
 		</div>
@@ -22,34 +22,27 @@
 		<!-- 购物车主体 -->
 		<div class="shoppingcart-body">
 			<div class="zhifa">
-				<div class="zhifatitle">
-					<div class="kuang">
-						<div class="checked"></div>
-					</div>
-					<div class="carbody-title">魅力惠直发</div>
-				</div>
 				<div class="zhifalist">
 					<ul class="zhifaUl">
-						<li class="zhifaLi">
-							<div class="kuang1" style="float:left">
-								<div class="checked"></div>
+						<!-- 生成li -->
+						<li class="zhifaLi" v-for="data,myindex in cartList">
+							<div class="kuang1">
+								<input type="checkbox" v-model="cartArray" :value="data">
+								<!-- <div class="checked1" v-model="cartArray" :value="data">√</div> -->
 							</div>
-							<div class="proli" style="float: left display: flex">
-								<div class="proimg" style="height:143px;width: 100px;float:left;margin-right:20px">
+							<div class="proli">
+								<div class="proimg">
 									<img src="https://cdn13.mei.com/product/FE0-912-00269/FE0-912-00269a.jpg@182w_242h_2e_65q">
 								</div>
-								<div class="proneirong" style="width: 80%;position: relative;">
+								<div class="proliright">
 										<h3 class="proh3">FRETTE</h3>
 										<p class="prodescription">浅绿色LUX.MAGNETIC四件套1.8-2米床</p>
 										<p class="pro_prop">绿色</p>
-										<p class="pro_price">￥3280</p>
+										<p class="pro_price">￥{{data.price}}</p>
 										<p class="count" style="border:2px solid gray;">
-											<span >-</span>
-											<span style="border:2px solid gray;"> 3 </span>
-											<span >+</span>
-											<!-- <div>-</div>
-											<div>3</div>
-											<div>+</div> -->
+											<span @click="min(myindex)">-</span>
+											<span style="border:2px solid gray;">{{data.count}}</span>
+											<span @click="add(myindex)">+</span>
 										</p>
 								</div>
 							</div>
@@ -65,12 +58,18 @@
 
 		<!-- 购物车脚 -->
 		<div class="shoppingcart-foot">
-			<div class="kuang">
-				<div class="checked"></div>
+			<div class="checkAll" >
+				<div class="kuang">
+				<input type="checkbox" v-model='isChecked' @click="checkall">
+				<!-- <div class="checked">√</div> -->
+				</div>
+				
 			</div>
-			<p class="cheall">全选</p>
-			<p class="priall">总价</p>
-			<p class="priceall">￥3250</p>
+			<div class="zongjia" style="position: relative">
+				<p class="cheall">全选</p>
+				<p class="priall">总价</p>
+				<p class="priceall" style="position: absolute; left:80%;">￥{{computedList}}</p>
+			</div>
 			<button class="goto">去结算</button>
 		</div>
 	</div>
@@ -84,7 +83,25 @@
 		name:'shoppingcart',
 		data(){
 			return {
-				shopTitle:[]
+				shopTitle:[],
+				cartList:[{
+					name:"鼠标",
+					price:20,
+					count:3
+
+				},
+				{
+					name:"键盘",
+					price:120,
+					count:2
+				},
+				{
+					name:"电脑",
+					price:260,
+					count:5
+				}],
+				cartArray:[],
+				isChecked:false
 			}
 		},
 		mounted(){
@@ -94,10 +111,44 @@
 			this.$store.state.navshow=true;
 		},
 		methods:{
+			min(index){
+					if(this.cartList[index].count<1){
+						return;
+					}
+					this.cartList[index].count=this.cartList[index].count-1;
+			},
+			add(index){
+					this.cartList[index].count=this.cartList[index].count+1;
+			},
+			checkall(){
+				this.isChecked = !this.isChecked;
+				//console.log(this.isChecked);
+				if(this.isChecked===true){
+						for(var i=0;i<this.cartList.length;i++){
+							if(this.cartArray.indexOf(this.cartList[i])===-1){
+								this.cartArray.push(this.cartList[i]);
+							}
+						}
+					}else{
+						this.cartArray=[];
+					}
+			}
 
 		},
 		computed:{
+			computedList(){
+					var sum=0;
+					for(var i=0;i<this.cartArray.length;i++){
+						sum=sum+this.cartArray[i].price*this.cartArray[i].count;
+					}
 
+					if(this.cartArray.length===this.cartList.length){
+						this.isChecked=true;
+					}else{
+						this.isChecked=false;
+					}
+					return  sum;
+				},
 		}
 	}
 
@@ -142,7 +193,7 @@
 	.baoyou{
 		line-height: 45px;
 		float: left;
-		color: red;
+	 	color: #dd2828;
 	}
 	.baoyour{
 		float: right;
@@ -175,23 +226,46 @@
     }
     .kuang{
     	height: 50px;
-    	width: 50px;
+    	width: 10%;
     	padding: 13px;
     	float: left;
     	box-sizing: border-box;
     }
     .kuang1{
     	height: 100%;
-    	width: 50px;
+    	width: 10%;
     	padding: 59px 13px;
     	box-sizing: border-box;
+    	float: left;
 
+    }
+    .checked1{
+    	width: 100%;
+    	height: 100%;
+    	border: 1px solid gray;
+    	cursor: pointer;
+    	text-align: center;
+    	font-size: 18px;
+    	color: white;
     }
     .checked{
     	width: 100%;
     	height: 100%;
     	border: 1px solid gray;
+    	cursor: pointer;
+    	text-align: center;
+    	font-size: 18px;
+    	color: white;
     }
+    .noselected{
+    	background-color: white;
+    }
+    .selected{
+    	background-color: black;
+    }
+	/* .checked:hover{
+    	background-color: black;
+    } */
     .zhifalist{
     	width: 100%;
     	overflow: hidden;
@@ -199,7 +273,7 @@
    
     .zhifaLi{
     	height: 155px;
-    	width: 120%;
+    	width: 100%;
     	border-bottom: 1px solid #ccc;
     	border-top: 1px solid #ccc;
     	background-color: white;
@@ -208,9 +282,22 @@
     	padding-bottom: 6px;
 
     }
+    .proli{
+    	float: right;
+    	/* display: flex; */
+    	width: 85%;
+    }
+    .proliright{
+    	width: 90%;
+    	position: relative;
+    }
     .proimg{
     	display: flex;
+    	height:143px;float:left;margin-right:20px
 
+    }
+    .proneirong{
+    	width: 80%;position: relative;
     }
     .proimg img{
     	height: 143px;
@@ -232,7 +319,7 @@
     	font-size: 14px;
     	color: gray;
     	line-height: 30px;
-    	margin-bottom: 10px;
+    	margin-bottom: 20px;
     }
    .pro_price{
    		font-size: 20px;
@@ -251,16 +338,22 @@
    	border-bottom: 1px solid #ccc;
    	position: fixed;
    	bottom: 0;
-   }
-   .shoppingcart-foot{
    	display: flex;
    	justify-content: space-between;
+   	background-color: white;
+   }
+   .checkAll{
+   	padding-top: 5px;
+   	box-sizing: border-box;
+   }
+   .zongjia{
+   		width: 55%;
    }
    .goto{
    	width: 30%;
    	height: 100%;
    	line-height: 55px;
-   	background-color: gray;
+   	background-color:#dd2828 ;
    	text-align: center;
    	color: white;
    	font-size: 18px;
@@ -272,7 +365,34 @@
    	height: 55px;
    	line-height: 55px;
    }
+   .priceall{
+   		font-size: 18px;
+   		font-weight: bold;
+   		color: #dd2828;
+   		float: left;
+   }
+   .priall{
+   	font-weight: bold;
+   	font-size: 18px;
+   }
+   input{
+   	height: 20px;
+   	width: 20px;
+   }
+   .priall{
+   	float: left;
+   }
+   .priceall{
+   	float: right;
+   	margin-left: -10%;
+   }
+   .cheall{
+   		width: 20%;
+   		float: left;
+   		margin-right: 30%;
+   }
 
+   
 	
 
 
