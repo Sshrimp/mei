@@ -66,7 +66,9 @@ export default{
 	},
 	 mounted(){
 	 	this.$store.state.navshow = false;
-
+	 	if (this.$store.state.num !== '') {
+	 		this,shouji = this.$store.state.num
+	 	}
 	 	axios.get(`/appapi/customer/getRegisterTips`).then(res=>{
 	 		//console.log(res.data);
 	 		this.title = res.data.tips
@@ -151,6 +153,7 @@ export default{
 	 			}).then(res=>{
 	 				console.log(res.data);
 	 				if (res.data.isHere ===true) {
+	 					this.$store.commit('zyp','');
 	 					this.$router.push('/index')
 	 				}else{
 	 					this.isShow = true;
