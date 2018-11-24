@@ -16,6 +16,7 @@ const store = new Vuex.Store({
     filterlist:{
       categoryId:'',
       categoryIdTwoId:'',
+      productId:'',
       siloId:''
     }
   },
@@ -36,6 +37,9 @@ const store = new Vuex.Store({
     },
     zyp(state,payload){
       state.num = payload;
+    },
+    chuanChan(state,payload){
+      state.filterlist.productId = payload;
     }
   }
 })
