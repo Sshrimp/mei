@@ -101,7 +101,11 @@ export default{
 	 	},
 	 	fafa(){
 	 		if (this.isShor ===true) {
-	 			axios.get(`/v4?num=${this.isValue}`).then(res=>{
+	 			
+	 			axios.post(`/v4/login`,{
+	 				num:this.$store.login.num,
+	 				password:isValue
+	 			}).then(res=>{
 	 				this.$router.push('/account')
 	 			}).catch(err=>{
 	 				console.log("请求失败："+err);

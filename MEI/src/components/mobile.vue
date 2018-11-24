@@ -101,7 +101,17 @@ export default{
 	 	fafa(){
 	 		if (this.isShor ===true) {
 	 			axios.get(`/v4?num=${this.isValue}`).then(res=>{
-	 				this.$router.push('/account')
+	 				console.log(res);
+	 				if (res.data.data.isHere === true) {
+	 					this.$store.commit('zyp',this.isValue);
+
+	 					this.$router.push('/longin/account');
+	 				}else{
+	 					this.$store.commit('zyp',this.isValue);
+	 					
+	 					this.$router.push('/setpassword');
+	 				}
+	 				//this.$router.push('/account')
 	 			}).catch(err=>{
 	 				console.log("请求失败："+err);
 	 			})
