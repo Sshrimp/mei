@@ -105,7 +105,7 @@ export default{
 	 				if (res.data.isHere === true) {
 	 					this.$store.commit('zyp',this.isValue);
 
-	 					this.$router.push('/longin/account');
+	 					this.$router.push('/login/account');
 	 				}else{
 	 					this.$store.commit('zyp',this.isValue);
 
