@@ -17,6 +17,9 @@ const store = new Vuex.Store({
       categoryIdTwoId:'',
       siloId:''
     },
+    login:{
+      num:''
+    }
   },
 
   actions:{
@@ -32,6 +35,9 @@ const store = new Vuex.Store({
       state.filterlist.categoryId = payload.oneId;
       state.filterlist.categoryIdTwoId = payload.twoId;
       state.filterlist.siloId = payload.siloId;   
+    },
+    zyp(state,payload){
+      state.login.num = payload.num;
     }
   }
 })
