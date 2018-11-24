@@ -65,7 +65,7 @@
 			<p class="lunbo11">人气热销</p>
 			<div class="swiper-container lunbo14">
     			<div  class="swiper-wrapper ">
-    				<div v-for="data in lunboimg2" class="swiper-slide" @click="clicklunbo2(myindex)">
+    				<div v-for="data,myindex in lunboimg2" class="swiper-slide" @click="clicklunbo2(myindex)">
     					<div class="swiper11">
     						<img :src="data.fileUrl">
      						<span style="">￥{{data.price}} </span>
