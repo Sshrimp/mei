@@ -145,8 +145,18 @@ export default{
 	 	},
 	 	fafa(){
 	 		if (this.isShor&&this.isShoy === true) {
-	 			axios.get(`/v4?num=${this.isValue}`).then(res=>{
-	 				this.$router.push('/account')
+	 			axios.post(`/v4/login`,{
+	 				num:this.isValue1,
+	 				password:this.isValue2
+	 			}).then(res=>{
+	 				console.log(res.data);
+	 				if (res.data ===true) {
+	 					this.$router.push('/index')
+	 				}else{
+	 					this.isShow = true;
+	 					this.error = '账号密码不匹配！'
+	 				}
+	 				//this.$router.push('/account')
 	 			}).catch(err=>{
 	 				console.log("请求失败："+err);
 	 			})
