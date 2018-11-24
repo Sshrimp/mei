@@ -20,11 +20,13 @@
 </template>
 
 <script>
+	import axios from 'axios'
 	export default{
 		name:'topnav',
 		data(){
 			return{
-				isfff:true
+				isfff:true,
+
 			}
 		},
 		mounted(){
@@ -36,6 +38,8 @@
 					self.isfff = false
 				}
 			})
+
+			
 				// console.log(self.isfff)
 		},
 		computed:{
