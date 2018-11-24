@@ -107,7 +107,6 @@
 				
 					this.newlists = res.data.lists[0].events
 					this.hotlists = res.data.lists[1].events
-					console.log(this.new)
 			})
 		},
 		methods:{
