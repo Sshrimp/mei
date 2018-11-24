@@ -8,6 +8,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     navshow: true,
+    num:'',
     productlist:{
     	eventId:'',
   		urlkey:''
@@ -16,9 +17,6 @@ const store = new Vuex.Store({
       categoryId:'',
       categoryIdTwoId:'',
       siloId:''
-    },
-    login:{
-      num:''
     }
   },
 
@@ -37,7 +35,7 @@ const store = new Vuex.Store({
       state.filterlist.siloId = payload.siloId;   
     },
     zyp(state,payload){
-      state.login.num = payload.num;
+      state.num = payload;
     }
   }
 })
