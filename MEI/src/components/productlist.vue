@@ -3,7 +3,7 @@
 		<transition name="fade">
 		<div class="topMenuBar" v-show="isShow">
 			<div class="topMenuBar-top">
-				<div class="div1">
+				<div class="div1" @click = 'back()'>
 					<i class="iconfont icon-fanhui"></i>
 				</div>
 				<div class="div2">
@@ -20,14 +20,14 @@
 					<li class="li3">价格
 						<span></span>
 					</li>
-					<li class="li4">筛选</li>
+					<li class="li4" @click = 'filter()'>筛选</li>
 				</ul>
 			</div>
 		</div>
 		</transition>
 
 
-		<div class="promotions" v-if="list">
+		<div class="promotions" v-if="list" v-show = '!filterShow'>
 			<div class="promotions-1">
 				<div class="promotions-1-1" v-if="isShot">
 					<i class="promotions-1-1-1">满折</i>
@@ -85,6 +85,10 @@
 				</li>
 			</ul>
 		</div>
+		 <transition name="filter" mode="out-in">
+			<div  v-show='filterShow' class="filter">
+			</div>
+		</transition>
 	</div>
 </template>
 
@@ -108,7 +112,8 @@
 		 		title:"",
 		 		zhi:0,
 		 		loading:false,
-		 		lan:1
+		 		lan:1,
+		 		filterShow :false
 		 	}
 		 },
 		  mounted(){
@@ -165,6 +170,12 @@
 
 		  	 	})
 		  	
+		  	},
+		  	filter(){
+		  		this.filterShow = true
+		  	},
+		  	back(){
+		  		this.$router.go(-1)
 		  	}
 		  }
 	}
@@ -413,6 +424,25 @@
 				}
 			}
 		}
+	}
+
+
+	.filter{
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: red;
+		z-index: 15;
+	}
+
+	.filter-enter-active, .filter-leave-active {
+	  transition: all .5s;
+	}
+	.filter-enter, .filter-leave-to /* .kerwinfade-leave-active below version 2.1.8 */ {
+	  transform: translateY(100%)
+	  
 	}
 	
 </style>
